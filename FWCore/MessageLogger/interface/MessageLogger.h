@@ -140,7 +140,7 @@ namespace edm {
 
   class LogWarning {
   public:
-    explicit LogWarning(std::string const& id)
+    explicit LogWarning(std::string_view id)
         : ap(ELwarning,
              id,
              false,
@@ -165,6 +165,13 @@ namespace edm {
       return *this;
     }
 
+    template <typename... Args>
+    LogWarning& format(std::string_view fmt, Args const&... args) {
+      if (ap.valid())
+        ap.format(fmt, args...);
+      return *this;
+    }
+
     template <typename F>
     LogWarning& log(F&& iF) {
       if (ap.valid()) {
@@ -182,7 +189,7 @@ namespace edm {
 
   class LogError {
   public:
-    explicit LogError(std::string const& id)
+    explicit LogError(std::string_view id)
         : ap(ELerror, id, false, !MessageDrop::instance()->errorEnabled)  // Change log 24
     {}
     ~LogError();  // Change log 13
@@ -204,6 +211,13 @@ namespace edm {
       return *this;
     }
 
+    template <typename... Args>
+    LogError& format(std::string_view fmt, Args const&... args) {
+      if (ap.valid())
+        ap.format(fmt, args...);
+      return *this;
+    }
+
     template <typename F>
     LogError& log(F&& iF) {
       if (ap.valid()) {
@@ -221,7 +235,7 @@ namespace edm {
 
   class LogSystem {
   public:
-    explicit LogSystem(std::string const& id) : ap(ELsevere, id) {}
+    explicit LogSystem(std::string_view id) : ap(ELsevere, id) {}
     ~LogSystem();  // Change log 13
 
     template <class T>
@@ -235,6 +249,13 @@ namespace edm {
     }
     LogSystem& operator<<(std::ios_base& (*f)(std::ios_base&)) {
       ap << f;
+      return *this;
+    }
+
+    template <typename... Args>
+    LogSystem& format(std::string_view fmt, Args const&... args) {
+      if (ap.valid())
+        ap.format(fmt, args...);
       return *this;
     }
 
@@ -253,7 +274,7 @@ namespace edm {
 
   class LogInfo {
   public:
-    explicit LogInfo(std::string const& id)
+    explicit LogInfo(std::string_view id)
         : ap(ELinfo,
              id,
              false,
@@ -278,6 +299,13 @@ namespace edm {
       return *this;
     }
 
+    template <typename... Args>
+    LogInfo& format(std::string_view fmt, Args const&... args) {
+      if (ap.valid())
+        ap.format(fmt, args...);
+      return *this;
+    }
+
     template <typename F>
     LogInfo& log(F&& iF) {
       if (ap.valid()) {
@@ -297,7 +325,7 @@ namespace edm {
   class LogVerbatim  // change log 2
   {
   public:
-    explicit LogVerbatim(std::string const& id)
+    explicit LogVerbatim(std::string_view id)
         : ap(ELinfo,
              id,
              true,
@@ -323,6 +351,13 @@ namespace edm {
       return *this;
     }
 
+    template <typename... Args>
+    LogVerbatim& format(std::string_view fmt, Args&... args) {
+      if (ap.valid())
+        ap.format(fmt, args...);
+      return *this;
+    }
+
     template <typename F>
     LogVerbatim& log(F&& iF) {
       if (ap.valid()) {
@@ -342,7 +377,7 @@ namespace edm {
   class LogPrint  // change log 3
   {
   public:
-    explicit LogPrint(std::string const& id)
+    explicit LogPrint(std::string_view id)
         : ap(ELwarning,
              id,
              true,
@@ -368,6 +403,13 @@ namespace edm {
       return *this;
     }
 
+    template <typename... Args>
+    LogPrint& format(std::string_view fmt, Args const&... args) {
+      if (ap.valid())
+        ap.format(fmt, args...);
+      return *this;
+    }
+
     template <typename F>
     LogPrint& log(F&& iF) {
       if (ap.valid()) {
@@ -387,7 +429,7 @@ namespace edm {
   class LogProblem  // change log 4
   {
   public:
-    explicit LogProblem(std::string const& id)
+    explicit LogProblem(std::string_view id)
         : ap(ELerror, id, true, !MessageDrop::instance()->errorEnabled)  // Change log 24
     {}
     ~LogProblem();  // Change log 13
@@ -406,6 +448,13 @@ namespace edm {
     LogProblem& operator<<(std::ios_base& (*f)(std::ios_base&)) {
       if (ap.valid())
         ap << f;
+      return *this;
+    }
+
+    template <typename... Args>
+    LogProblem& format(std::string_view fmt, Args const&... args) {
+      if (ap.valid())
+        ap.format(fmt, args...);
       return *this;
     }
 
@@ -428,7 +477,7 @@ namespace edm {
   class LogImportant  // change log 11
   {
   public:
-    explicit LogImportant(std::string const& id)
+    explicit LogImportant(std::string_view id)
         : ap(ELerror, id, true, !MessageDrop::instance()->errorEnabled)  // Change log 24
     {}
     ~LogImportant();  // Change log 13
@@ -447,6 +496,13 @@ namespace edm {
     LogImportant& operator<<(std::ios_base& (*f)(std::ios_base&)) {
       if (ap.valid())
         ap << f;
+      return *this;
+    }
+
+    template <typename... Args>
+    LogImportant& format(std::string_view fmt, Args const&... args) {
+      if (ap.valid())
+        ap.format(fmt, args...);
       return *this;
     }
 
@@ -469,7 +525,7 @@ namespace edm {
   class LogAbsolute  // change log 4
   {
   public:
-    explicit LogAbsolute(std::string const& id)
+    explicit LogAbsolute(std::string_view id)
         : ap(ELsevere, id, true)  // true for verbatim
     {}
     ~LogAbsolute();  // Change log 13
@@ -488,6 +544,13 @@ namespace edm {
       return *this;
     }
 
+    template <typename... Args>
+    LogAbsolute& format(std::string_view fmt, Args const&... args) {
+      if (ap.valid())
+        ap.format(fmt, args...);
+      return *this;
+    }
+
     template <typename F>
     LogAbsolute& log(F&& iF) {
       iF(ap);
@@ -501,8 +564,6 @@ namespace edm {
 
   };  // LogAbsolute
 
-  std::string stripLeadingDirectoryTree(const std::string& file);
-
   // change log 10:  removed onlyLowestDirectory()
 
   void LogStatistics();
@@ -510,7 +571,7 @@ namespace edm {
   class LogDebug_ {
   public:
     LogDebug_() : ap() {}
-    explicit LogDebug_(std::string const& id, std::string const& file, int line);  // Change log 17
+    explicit LogDebug_(std::string_view id, std::string_view file, int line);  // Change log 17
     ~LogDebug_();
 
     template <class T>
@@ -531,6 +592,13 @@ namespace edm {
     }
     // Change log 8:  The tests for ap.valid() being null
 
+    template <typename... Args>
+    LogDebug_& format(std::string_view fmt, Args const&... args) {
+      if (ap.valid())
+        ap.format(fmt, args...);
+      return *this;
+    }
+
     template <typename F>
     LogDebug_& log(F&& iF) {
       if (ap.valid()) {
@@ -541,14 +609,14 @@ namespace edm {
 
   private:
     MessageSender ap;
-    std::string stripLeadingDirectoryTree(const std::string& file) const;
+    std::string_view stripLeadingDirectoryTree(std::string_view file) const;
     // change log 10
   };  // LogDebug_
 
   class LogTrace_ {
   public:
     LogTrace_() : ap() {}
-    explicit LogTrace_(std::string const& id);  // Change log 13
+    explicit LogTrace_(std::string_view id);  // Change log 13
     ~LogTrace_();
 
     template <class T>
@@ -569,6 +637,13 @@ namespace edm {
     }
     // Change log 8:  The tests for ap.valid() being null
 
+    template <typename... Args>
+    LogTrace_& format(std::string_view fmt, Args const&... args) {
+      if (ap.valid())
+        ap.format(fmt, args...);
+      return *this;
+    }
+
     template <typename F>
     LogTrace_& log(F&& iF) {
       if (ap.valid()) {
@@ -586,7 +661,7 @@ namespace edm {
   namespace edmmltest {
     class LogWarningThatSuppressesLikeLogInfo {
     public:
-      explicit LogWarningThatSuppressesLikeLogInfo(std::string const& id)
+      explicit LogWarningThatSuppressesLikeLogInfo(std::string_view id)
           : ap(ELwarning,
                id,
                false,
@@ -607,6 +682,13 @@ namespace edm {
       LogWarningThatSuppressesLikeLogInfo& operator<<(std::ios_base& (*f)(std::ios_base&)) {
         if (ap.valid())
           ap << f;
+        return *this;
+      }
+
+      template <typename... Args>
+      LogWarningThatSuppressesLikeLogInfo& format(std::string_view fmt, Args const&... args) {
+        if (ap.valid())
+          ap.format(fmt, args...);
         return *this;
       }
 
@@ -638,6 +720,11 @@ namespace edm {
     Suppress_LogDebug_& operator<<(std::ostream& (*)(std::ostream&)) { return *this; }    // Change log 12
     Suppress_LogDebug_& operator<<(std::ios_base& (*)(std::ios_base&)) { return *this; }  // Change log 12
 
+    template <typename... Args>
+    Suppress_LogDebug_& format(std::string_view fmt, Args const&... args) {
+      return *this;
+    }
+
     template <typename F>
     Suppress_LogDebug_& log(F&& iF) {
       return *this;
@@ -650,7 +737,7 @@ namespace edm {
   void HaltMessageLogging();
   void FlushMessageLog();
   void clearMessageLog();
-  void GroupLogStatistics(std::string const& category);
+  void GroupLogStatistics(std::string_view category);
   bool isMessageProcessingSetUp();
 
   // Change Log 15

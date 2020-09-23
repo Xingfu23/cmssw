@@ -8,11 +8,11 @@
 #include "DataFormats/Provenance/interface/BranchIDListHelper.h"
 #include "DataFormats/Provenance/interface/ProductResolverIndexHelper.h"
 #include "FWCore/Framework/interface/EDConsumerBase.h"
-#include "FWCore/Framework/interface/OutputModuleDescription.h"
-#include "FWCore/Framework/interface/SubProcess.h"
+#include "FWCore/Framework/src/OutputModuleDescription.h"
+#include "FWCore/Framework/src/SubProcess.h"
 #include "FWCore/Framework/interface/TriggerNamesService.h"
-#include "FWCore/Framework/interface/TriggerReport.h"
-#include "FWCore/Framework/interface/TriggerTimingReport.h"
+#include "FWCore/Framework/src/TriggerReport.h"
+#include "FWCore/Framework/src/TriggerTimingReport.h"
 #include "FWCore/Framework/src/PreallocationConfiguration.h"
 #include "FWCore/Framework/src/Factory.h"
 #include "FWCore/Framework/src/OutputModuleCommunicator.h"
@@ -232,6 +232,14 @@ namespace edm {
 
       std::map<BranchKey, BranchKey> aliasKeys;  // Used to search for duplicates or clashes.
 
+      // Auxiliary search structure to support wildcard for friendlyClassName
+      std::multimap<std::string, BranchKey> moduleLabelToBranches;
+      for (auto const& prod : preg.productList()) {
+        if (processName == prod.second.processName()) {
+          moduleLabelToBranches.emplace(prod.first.moduleLabel(), prod.first);
+        }
+      }
+
       // Now, loop over the alias information and store it in aliasMap.
       for (std::string const& alias : aliases) {
         ParameterSet const& aliasPSet = proc_pset.getParameterSet(alias);
@@ -243,7 +251,39 @@ namespace edm {
             std::string friendlyClassName = pset.getParameter<std::string>("type");
             std::string productInstanceName = pset.getParameter<std::string>("fromProductInstance");
             std::string instanceAlias = pset.getParameter<std::string>("toProductInstance");
-            if (productInstanceName == star) {
+
+            if (friendlyClassName == star) {
+              bool processHasLabel = false;
+              bool match = false;
+              for (auto it = moduleLabelToBranches.lower_bound(moduleLabel);
+                   it != moduleLabelToBranches.end() && it->first == moduleLabel;
+                   ++it) {
+                processHasLabel = true;
+                if (productInstanceName != star and productInstanceName != it->second.productInstanceName()) {
+                  continue;
+                }
+                match = true;
+
+                checkAndInsertAlias(it->second.friendlyClassName(),
+                                    moduleLabel,
+                                    it->second.productInstanceName(),
+                                    processName,
+                                    alias,
+                                    instanceAlias,
+                                    preg,
+                                    aliasMap,
+                                    aliasKeys);
+              }
+              if (not match and processHasLabel) {
+                // No product was found matching the alias.
+                // We throw an exception only if a module with the specified module label was created in this process.
+                // Note that if that condition is ever relatex, it  might be best to throw an exception with different
+                // message (omitting productInstanceName) in case 'productInstanceName == start'
+                throw Exception(errors::Configuration, "EDAlias parameter set mismatch\n")
+                    << "There are no products with module label '" << moduleLabel << "' and product instance name '"
+                    << productInstanceName << "'.\n";
+              }
+            } else if (productInstanceName == star) {
               bool match = false;
               BranchKey lowerBound(friendlyClassName, moduleLabel, empty, empty);
               for (ProductRegistry::ProductList::const_iterator it = preg.productList().lower_bound(lowerBound);
@@ -361,6 +401,28 @@ namespace edm {
         std::sort(elem.second.chosenBranches.begin(), elem.second.chosenBranches.end());
       }
 
+      auto addProductsToException = [&preg, &processName](auto const& caseLabels, edm::Exception& ex) {
+        std::map<std::string, std::vector<BranchKey>> caseBranches;
+        for (auto const& item : preg.productList()) {
+          if (item.first.processName() != processName)
+            continue;
+
+          if (auto found = std::find(caseLabels.begin(), caseLabels.end(), item.first.moduleLabel());
+              found != caseLabels.end()) {
+            caseBranches[*found].push_back(item.first);
+          }
+        }
+
+        for (auto const& caseLabel : caseLabels) {
+          ex << "Products for case " << caseLabel << " (friendly class name, product instance name):\n";
+          auto& branches = caseBranches[caseLabel];
+          std::sort(branches.begin(), branches.end());
+          for (auto const& branch : branches) {
+            ex << " " << branch.friendlyClassName() << " " << branch.productInstanceName() << "\n";
+          }
+        }
+      };
+
       // Check that non-chosen cases declare exactly the same branches
       // Also set the alias-for branches to transient
       std::vector<bool> foundBranches;
@@ -391,11 +453,16 @@ namespace edm {
                                                       item.first.productInstanceName(),
                                                       item.first.processName()));
               if (range.first == range.second) {
-                throw Exception(errors::Configuration)
-                    << "SwitchProducer " << switchLabel << " has a case " << caseLabel << " with a product "
-                    << item.first << " that is not produced by the chosen case "
-                    << proc_pset.getParameter<edm::ParameterSet>(switchLabel)
-                           .getUntrackedParameter<std::string>("@chosen_case");
+                Exception ex(errors::Configuration);
+                ex << "SwitchProducer " << switchLabel << " has a case " << caseLabel << " with a product "
+                   << item.first << " that is not produced by the chosen case "
+                   << proc_pset.getParameter<edm::ParameterSet>(switchLabel)
+                          .getUntrackedParameter<std::string>("@chosen_case")
+                   << ". If the intention is to produce only a subset of the products listed below, each case with "
+                      "more products needs to be replaced with an EDAlias to only the necessary products, and the "
+                      "EDProducer itself needs to be moved to a Task.\n\n";
+                addProductsToException(caseLabels, ex);
+                throw ex;
               }
               assert(std::distance(range.first, range.second) == 1);
               foundBranches[std::distance(chosenBranches.begin(), range.first)] = true;
@@ -417,11 +484,17 @@ namespace edm {
 
           for (size_t i = 0; i < chosenBranches.size(); i++) {
             if (not foundBranches[i]) {
-              throw Exception(errors::Configuration)
-                  << "SwitchProducer " << switchLabel << " has a case " << caseLabel
-                  << " that does not produce a product " << chosenBranches[i] << " that is produced by the chosen case "
-                  << proc_pset.getParameter<edm::ParameterSet>(switchLabel)
-                         .getUntrackedParameter<std::string>("@chosen_case");
+              auto chosenLabel = proc_pset.getParameter<edm::ParameterSet>(switchLabel)
+                                     .getUntrackedParameter<std::string>("@chosen_case");
+              Exception ex(errors::Configuration);
+              ex << "SwitchProducer " << switchLabel << " has a case " << caseLabel
+                 << " that does not produce a product " << chosenBranches[i] << " that is produced by the chosen case "
+                 << chosenLabel
+                 << ". If the intention is to produce only a subset of the products listed below, each case with more "
+                    "products needs to be replaced with an EDAlias to only the necessary products, and the "
+                    "EDProducer itself needs to be moved to a Task.\n\n";
+              addProductsToException(caseLabels, ex);
+              throw ex;
             }
           }
         }
@@ -722,7 +795,6 @@ namespace edm {
     for (auto const& worker : streamSchedules_[0]->allWorkers()) {
       worker->registerThinnedAssociations(preg, thinnedAssociationsHelper);
     }
-    thinnedAssociationsHelper.sort();
 
     // The output modules consume products in kept branches.
     // So we must set this up before freezing.
@@ -1183,6 +1255,45 @@ namespace edm {
     }
   }
 
+  void Schedule::writeProcessBlockAsync(WaitingTaskHolder task,
+                                        ProcessBlockPrincipal const& pbp,
+                                        ProcessContext const* processContext,
+                                        ActivityRegistry* activityRegistry) {
+    auto token = ServiceRegistry::instance().presentToken();
+    GlobalContext globalContext(GlobalContext::Transition::kWriteProcessBlock,
+                                LuminosityBlockID(),
+                                RunIndex::invalidRunIndex(),
+                                LuminosityBlockIndex::invalidLuminosityBlockIndex(),
+                                Timestamp::invalidTimestamp(),
+                                processContext);
+
+    auto t =
+        make_waiting_task(tbb::task::allocate_root(),
+                          [task, activityRegistry, globalContext, token](std::exception_ptr const* iExcept) mutable {
+                            // Propagating the exception would be nontrivial, and signal actions are not supposed to throw exceptions
+                            CMS_SA_ALLOW try {
+                              //services can depend on other services
+                              ServiceRegistry::Operate op(token);
+
+                              activityRegistry->postWriteProcessBlockSignal_(globalContext);
+                            } catch (...) {
+                            }
+                            std::exception_ptr ptr;
+                            if (iExcept) {
+                              ptr = *iExcept;
+                            }
+                            task.doneWaiting(ptr);
+                          });
+    // Propagating the exception would be nontrivial, and signal actions are not supposed to throw exceptions
+    CMS_SA_ALLOW try { activityRegistry->preWriteProcessBlockSignal_(globalContext); } catch (...) {
+    }
+    WaitingTaskHolder tHolder(t);
+
+    for (auto& c : all_output_communicators_) {
+      c->writeProcessBlockAsync(tHolder, pbp, processContext, activityRegistry);
+    }
+  }
+
   void Schedule::writeLumiAsync(WaitingTaskHolder task,
                                 LuminosityBlockPrincipal const& lbp,
                                 ProcessContext const* processContext,
@@ -1288,18 +1399,22 @@ namespace edm {
 
     {
       //Need to updateLookup in order to make getByToken work
+      auto const processBlockLookup = iRegistry.productLookup(InProcess);
       auto const runLookup = iRegistry.productLookup(InRun);
       auto const lumiLookup = iRegistry.productLookup(InLumi);
       auto const eventLookup = iRegistry.productLookup(InEvent);
+      found->updateLookup(InProcess, *runLookup);
       found->updateLookup(InRun, *runLookup);
       found->updateLookup(InLumi, *lumiLookup);
       found->updateLookup(InEvent, *eventLookup);
       found->updateLookup(iIndices);
 
       auto const& processName = newMod->moduleDescription().processName();
+      auto const& processBlockModuleToIndicies = processBlockLookup->indiciesForModulesInProcess(processName);
       auto const& runModuleToIndicies = runLookup->indiciesForModulesInProcess(processName);
       auto const& lumiModuleToIndicies = lumiLookup->indiciesForModulesInProcess(processName);
       auto const& eventModuleToIndicies = eventLookup->indiciesForModulesInProcess(processName);
+      found->resolvePutIndicies(InProcess, processBlockModuleToIndicies);
       found->resolvePutIndicies(InRun, runModuleToIndicies);
       found->resolvePutIndicies(InLumi, lumiModuleToIndicies);
       found->resolvePutIndicies(InEvent, eventModuleToIndicies);

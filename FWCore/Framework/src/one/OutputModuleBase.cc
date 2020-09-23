@@ -24,10 +24,10 @@
 #include "DataFormats/Provenance/interface/ThinnedAssociationsHelper.h"
 #include "FWCore/Framework/interface/EventForOutput.h"
 #include "FWCore/Framework/interface/EventPrincipal.h"
-#include "FWCore/Framework/interface/insertSelectedProcesses.h"
+#include "FWCore/Framework/src/insertSelectedProcesses.h"
 #include "FWCore/Framework/interface/LuminosityBlockForOutput.h"
 #include "FWCore/Framework/interface/RunForOutput.h"
-#include "FWCore/Framework/interface/OutputModuleDescription.h"
+#include "FWCore/Framework/src/OutputModuleDescription.h"
 #include "FWCore/Framework/interface/TriggerNamesService.h"
 #include "FWCore/Framework/src/EventSignalsSentry.h"
 #include "FWCore/Framework/src/PreallocationConfiguration.h"
@@ -168,6 +168,11 @@ namespace edm {
         case InRun: {
           token = consumes<InRun>(TypeToGet{desc.unwrappedTypeID(), PRODUCT_TYPE},
                                   InputTag(desc.moduleLabel(), desc.productInstanceName(), desc.processName()));
+          break;
+        }
+        case InProcess: {
+          token = consumes<InProcess>(TypeToGet{desc.unwrappedTypeID(), PRODUCT_TYPE},
+                                      InputTag(desc.moduleLabel(), desc.productInstanceName(), desc.processName()));
           break;
         }
         default:

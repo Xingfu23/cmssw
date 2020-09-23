@@ -11,8 +11,6 @@
 </bin>
 
 <bin file="DictionaryTools_t.cpp">
-  <use name="DataFormats/StdDictionaries"/>
-  <use name="DataFormats/WrappedStdDictionaries"/>
 </bin>
 
 <bin file="Wrapper_t.cpp">
@@ -25,6 +23,10 @@
 </bin>
 
 <bin file="Ref_t.cpp">
+</bin>
+
+<bin file="ThinnedRefSet_t.cpp">
+  <use name="catch2"/>
 </bin>
 
 <bin file="RefVector_t.cpp">

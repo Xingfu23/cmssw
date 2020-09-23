@@ -5,8 +5,10 @@
 <use name="TrackingTools/TrajectoryState"/>
 <use name="TrackingTools/TrajectoryParametrization"/>
 <use name="FWCore/Framework"/>
+<use name="FWCore/PluginManager"/>
 <use name="FWCore/ParameterSet"/>
 <use name="DataFormats/RecoCandidate"/>
+<use name="FWCore/MessageLogger"/>
 <export>
   <lib name="1"/>
 </export>

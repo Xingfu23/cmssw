@@ -170,17 +170,19 @@ def customiseFor2017DtUnpacking(process):
 
     return process
 
+def customiseFor31295(process):
+    """Reorganization of kdtrees for PFBlockAlgo and optimize track-hcal links"""
 
-# Update Pixel Gain calibration scheme for Run3 (PR #29333)
-def customiseFor29333(process):
-    for producer in producers_by_type(process, "SiPixelClusterProducer"):
-        # For Run3, change in the gain calibration scheme,
-        # to include the VCal conversion factors directly in the SiPixelGainCalibration DB object
-        # full details at: https://indico.cern.ch/event/879470/contributions/3796405/attachments/2009273/3356603/pix_off_25_3_gain_calibration_mc.pdf
-        producer.VCaltoElectronGain      = cms.int32(1) # all gains=1, pedestals=0
-        producer.VCaltoElectronGain_L1   = cms.int32(1)
-        producer.VCaltoElectronOffset    = cms.int32(0)
-        producer.VCaltoElectronOffset_L1 = cms.int32(0)
+    # for PFBlockProducer
+    for producer in producers_by_type(process, "PFBlockProducer"):
+        if hasattr(producer,'linkDefinitions'):
+            for ps in producer.linkDefinitions.value():
+                if hasattr(ps,'linkerName') and (ps.linkerName == 'TrackAndHCALLinker'):
+                    if not hasattr(ps,'nMaxHcalLinksPerTrack'):
+                        ps.nMaxHcalLinksPerTrack = cms.int32(1)
+                if hasattr(ps,'linkerName') and (ps.linkerName == 'ECALAndHCALLinker'):
+                    if not hasattr(ps,'minAbsEtaEcal'):
+                        ps.minAbsEtaEcal = cms.double(2.5)
 
     return process
 
@@ -189,6 +191,6 @@ def customizeHLTforCMSSW(process, menuType="GRun"):
 
     # add call to action function in proper order: newest last!
     # process = customiseFor12718(process)
-    process = customiseFor29333(process)
+    process = customiseFor31295(process)
 
     return process

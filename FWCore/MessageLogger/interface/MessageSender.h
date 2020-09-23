@@ -31,7 +31,7 @@ namespace edm {
   public:
     // ---  birth/death:
     MessageSender() : errorobj_p() {}
-    MessageSender(ELseverityLevel const& sev, ELstring const& id, bool verbatim = false, bool suppressed = false);
+    MessageSender(ELseverityLevel const& sev, std::string_view id, bool verbatim = false, bool suppressed = false);
     ~MessageSender();
 
     // ---  stream out the next part of a message:
@@ -39,6 +39,13 @@ namespace edm {
     MessageSender& operator<<(T const& t) {
       if (valid())
         (*errorobj_p) << t;
+      return *this;
+    }
+
+    template <typename... Args>
+    MessageSender& format(std::string_view fmt, Args const&... args) {
+      if (valid())
+        errorobj_p->format(fmt, args...);
       return *this;
     }
 

@@ -146,6 +146,7 @@
 #include "CondFormats/SiPixelObjects/interface/SiPixelQualityProbabilities.h"
 #include "CondFormats/SiPixelObjects/interface/SiPixelTemplateDBObject.h"
 #include "CondFormats/SiPixelObjects/interface/SiPixel2DTemplateDBObject.h"
+#include "CondFormats/SiPixelObjects/interface/SiPixelVCal.h"
 #include "CondFormats/SiPixelObjects/interface/SiPixelGenErrorDBObject.h"
 #include "CondFormats/SiStripObjects/interface/SiStripApvGain.h"
 #include "CondFormats/SiStripObjects/interface/SiStripBadStrip.h"
@@ -250,6 +251,7 @@
 #include "CondFormats/L1TObjects/interface/L1TUtmTriggerMenu.h"
 #include "CondFormats/L1TObjects/interface/L1TGlobalParameters.h"
 #include "CondFormats/L1TObjects/interface/L1TGlobalPrescalesVetos.h"
+#include "CondFormats/L1TObjects/interface/L1TGlobalPrescalesVetosFract.h"
 #include "CondFormats/L1TObjects/interface/L1TriggerKey.h"
 #include "CondFormats/L1TObjects/interface/L1TriggerKeyList.h"
 #include "CondFormats/PhysicsToolsObjects/interface/Histogram3D.h"
@@ -265,6 +267,7 @@
 #include "CondFormats/MFObjects/interface/MagFieldConfig.h"
 #include "CondFormats/PCLConfig/interface/AlignPCLThresholds.h"
 #include "CondFormats/SiPhase2TrackerObjects/interface/TrackerDetToDTCELinkCablingMap.h"
+#include "CondFormats/SiPhase2TrackerObjects/interface/SiPhase2OuterTrackerLorentzAngle.h"
 #include "CondFormats/SiPhase2TrackerObjects/interface/DTCELinkId.h"
 #include "CondFormats/Common/interface/BaseKeyed.h"
 

@@ -14,9 +14,9 @@
 #include "DQMServices/Core/interface/DQMEDAnalyzer.h"
 #include "DQMServices/Core/interface/DQMStore.h"
 
-#include "EventFilter/GEMRawToDigi/interface/GEMVfatStatusDigiCollection.h"
-#include "EventFilter/GEMRawToDigi/interface/GEMGEBdataCollection.h"
-#include "EventFilter/GEMRawToDigi/interface/GEMAMCdataCollection.h"
+#include "DataFormats/GEMDigi/interface/GEMVfatStatusDigiCollection.h"
+#include "DataFormats/GEMDigi/interface/GEMGEBdataCollection.h"
+#include "DataFormats/GEMDigi/interface/GEMAMCdataCollection.h"
 #include "DataFormats/GEMDigi/interface/GEMDigiCollection.h"
 
 #include <string>
@@ -83,8 +83,8 @@ private:
   int cBit_ = 9;
   int qVFATBit_ = 5;
   int fVFATBit_ = 4;
-  int eBit_ = 16;
-  int amcStatusBit_ = 6;
+  int eBit_ = 17;
+  int amcStatusBit_ = 7;
 
   int nNEvtPerSec_;
   int nNSecPerBin_;
@@ -231,7 +231,7 @@ int GEMDQMStatusDigi::SetInfoChambers() {
     int nLayer = sch->nChambers();
     for (int l = 0; l < nLayer; l++) {
       Bool_t bExist = false;
-      for (auto ch : gemChambers_)
+      for (const auto &ch : gemChambers_)
         if (ch.id() == sch->chamber(l + 1)->id())
           bExist = true;
       if (bExist)
@@ -248,7 +248,7 @@ int GEMDQMStatusDigi::SetInfoChambers() {
   m_listLayers.clear();
 
   // Summarizing geometry configurations
-  for (auto ch : gemChambers_) {
+  for (const auto &ch : gemChambers_) {
     GEMDetId gid = ch.id();
 
     GEMDetId layerID(gid.region(), gid.ring(), gid.station(), (bPerSuperchamber_ ? gid.layer() : 0), 0, 0);
@@ -329,7 +329,7 @@ int GEMDQMStatusDigi::SetConfigTimeRecord() {
     listTimeStore_[layerId] = newTimeStore;
   }
 
-  for (auto ch : gemChambers_) {
+  for (const auto &ch : gemChambers_) {
     auto chId = ch.id();
     GEMDetId chIdStatus(chId.region(), chId.ring(), chId.station(), chId.layer(), chId.chamber(), 1);
     GEMDetId chIdDigi(chId.region(), chId.ring(), chId.station(), chId.layer(), chId.chamber(), 2);
@@ -338,10 +338,11 @@ int GEMDQMStatusDigi::SetConfigTimeRecord() {
     std::string strSuffix = suffixChamber(chId);
 
     Int_t nVFAT = 0;
+    Int_t nEtas = ch.nEtaPartitions();
     if (chId.station() == 1)
-      nVFAT = GEMeMap::maxEtaPartition_ * GEMeMap::maxVFatGE11_;
+      nVFAT = nEtas * GEMeMap::maxVFatGE11_;
     if (chId.station() == 2)
-      nVFAT = GEMeMap::maxEtaPartition_ * GEMeMap::maxVFatGE21_;
+      nVFAT = nEtas * GEMeMap::maxVFatGE21_;
 
     newTimeStore.strName = strCommonName + "status_chamber_" + strSuffix;
     newTimeStore.strTitle = "";
@@ -445,11 +446,13 @@ void GEMDQMStatusDigi::bookHistogramsChamberPart(DQMStore::IBooker &ibooker, GEM
   std::string strIdxTitle = "GEMINIm" + to_string(gid.chamber()) + " in GE" + (gid.region() > 0 ? "+" : "-") +
                             to_string(gid.station()) + "/" + to_string(gid.layer());
 
+  const GEMChamber *ch = GEMGeometry_->chamber(gid);
   Int_t nVFAT = 0;
+  Int_t nEtas = ch->nEtaPartitions();
   if (gid.station() == 1)
-    nVFAT = GEMeMap::maxEtaPartition_ * GEMeMap::maxVFatGE11_;
+    nVFAT = nEtas * GEMeMap::maxVFatGE11_;
   if (gid.station() == 2)
-    nVFAT = GEMeMap::maxEtaPartition_ * GEMeMap::maxVFatGE21_;
+    nVFAT = nEtas * GEMeMap::maxVFatGE21_;
 
   hName = "vfatStatus_QualityFlag_" + strIdxName;
   hTitle = "VFAT quality " + strIdxTitle;
@@ -537,6 +540,7 @@ void GEMDQMStatusDigi::bookHistogramsStationPart(DQMStore::IBooker &ibooker, GEM
       newbookGEB(ibooker, "geb_OHCRC", "CRC of OH data", "CRC of OH data", lid, la, st, re, 65536, 0, 65536);
 
   unBinPos = 1;
+  listGEBInputStatus_[lid]->setBinLabel(unBinPos++, "Good", 2);
   listGEBInputStatus_[lid]->setBinLabel(unBinPos++, "BX mismatch GLIB OH", 2);
   listGEBInputStatus_[lid]->setBinLabel(unBinPos++, "BX mismatch GLIB VFAT", 2);
   listGEBInputStatus_[lid]->setBinLabel(unBinPos++, "OOS GLIB OH", 2);
@@ -566,6 +570,7 @@ void GEMDQMStatusDigi::bookHistogramsAMCPart(DQMStore::IBooker &ibooker) {
                                 amcStatusBit_);
 
   uint32_t unBinPos = 1;
+  h2AMCStatus_->setBinLabel(unBinPos++, "Good", 2);
   h2AMCStatus_->setBinLabel(unBinPos++, "BC0 not locked", 2);
   h2AMCStatus_->setBinLabel(unBinPos++, "DAQ not ready", 2);
   h2AMCStatus_->setBinLabel(unBinPos++, "DAQ clock not locked", 2);
@@ -663,7 +668,7 @@ void GEMDQMStatusDigi::bookHistograms(DQMStore::IBooker &ibooker, edm::Run const
   ibooker.cd();
   ibooker.setCurrentFolder("GEM/StatusDigi");
 
-  for (auto ch : gemChambers_) {
+  for (const auto &ch : gemChambers_) {
     GEMDetId gid = ch.id();
     bookHistogramsChamberPart(ibooker, gid);
   }
@@ -795,6 +800,8 @@ void GEMDQMStatusDigi::analyze(edm::Event const &event, edm::EventSetup const &e
     GEMDetId gemid = (*vfatIt).first;
     GEMDetId gemchId = gemid.chamberId();
     GEMDetId gemOnlychId(0, 1, 1, (bPerSuperchamber_ ? 0 : gemid.layer()), gemid.chamber(), 0);
+    const GEMChamber *ch = GEMGeometry_->chamber(gemchId);
+    Int_t maxEtaPs = ch->nEtaPartitions();
 
     int nIdx = seekIdx(m_listChambers, gemOnlychId);
     int nRoll = gemid.roll();
@@ -824,7 +831,7 @@ void GEMDQMStatusDigi::analyze(edm::Event const &event, edm::EventSetup const &e
       FillBits(h1_vfat_qualityflag_, unQFVFAT, qVFATBit_ + fVFATBit_);
       FillBits(h2_vfat_qualityflag_, unQFVFAT, qVFATBit_ + fVFATBit_, nIdx);  // They could be there
 
-      int nVFAT = (GEMeMap::maxEtaPartition_ - nRoll) + GEMeMap::maxEtaPartition_ * vfatStat->phi();
+      int nVFAT = (maxEtaPs - nRoll) + maxEtaPs * vfatStat->phi();
       bIsNotEmpty = FillBits(listVFATQualityFlag_[gemchId], unQFVFAT, qVFATBit_ + fVFATBit_, nVFAT);
 
       if (!bIsNotEmpty) {
@@ -858,7 +865,7 @@ void GEMDQMStatusDigi::analyze(edm::Event const &event, edm::EventSetup const &e
     for (auto GEBStatus = range.first; GEBStatus != range.second; ++GEBStatus) {
       bIsNotEmpty = true;
 
-      uint64_t unBit = 0;
+      uint64_t unBit = 1;
       uint64_t unStatus = 0;
 
       unStatus |= (GEBStatus->bxmVvV() << unBit++);
@@ -882,6 +889,8 @@ void GEMDQMStatusDigi::analyze(edm::Event const &event, edm::EventSetup const &e
         Int_t nIdxLayer, nIdxChamber;
         seekIdxSummary(gemid, nIdxLayer, nIdxChamber);
         h3SummaryStatusPre_->setBinContent(nIdxChamber, nIdxLayer, m_nIdxSummaryErr, 1.0);
+      } else {
+        unStatus = 0x01;  // Good
       }
 
       bIsNotEmpty = FillBits(listGEBInputStatus_[lid], unStatus, eBit_, nCh);
@@ -901,7 +910,7 @@ void GEMDQMStatusDigi::analyze(edm::Event const &event, edm::EventSetup const &e
       listGEBecOH_[lid]->Fill(nCh, GEBStatus->ecOH());
       listGEBOHCRC_[lid]->Fill(nCh, GEBStatus->crc());
 
-      fillTimeHisto(listCurr, nStackedBin_, nCh, unStatus != 0);
+      fillTimeHisto(listCurr, nStackedBin_, nCh, unStatus != 0x01);
     }
   }
 
@@ -917,7 +926,7 @@ void GEMDQMStatusDigi::analyze(edm::Event const &event, edm::EventSetup const &e
     auto &listCurr = listTimeStore_[0];
     for (auto amc = range.first; amc != range.second; ++amc) {
       Int_t nIdAMC = findAMCIdx(amc->amcNum());
-      uint64_t unBit = 0;
+      uint64_t unBit = 1;
       uint64_t unStatus = 0;
 
       unStatus |= (!amc->bc0locked() << unBit++);
@@ -927,6 +936,10 @@ void GEMDQMStatusDigi::analyze(edm::Event const &event, edm::EventSetup const &e
       unStatus |= (amc->backPressure() << unBit++);
       unStatus |= (amc->oosGlib() << unBit++);
 
+      if (unStatus == 0) {
+        unStatus = 0x01;  // Good
+      }
+
       FillBits(h2AMCStatus_, unStatus, amcStatusBit_, nIdAMC);
 
       h1_amc_ttsState_->Fill(amc->ttsState());
@@ -935,27 +948,12 @@ void GEMDQMStatusDigi::analyze(edm::Event const &event, edm::EventSetup const &e
       h1_amc_oosGlib_->Fill(amc->oosGlib());
       h1_amc_chTimeOut_->Fill(amc->linkTo());
 
-      fillTimeHisto(listCurr, nStackedBin_, nIdAMC, unStatus != 0);
+      fillTimeHisto(listCurr, nStackedBin_, nIdAMC, unStatus != 0x01);
     }
   }
 
-  auto findVFATByStrip = [](GEMDetId gid, Int_t nIdxStrip, Int_t nNumStrips) -> Int_t {
-    Int_t nNumEtaPart = GEMeMap::maxEtaPartition_;
-
-    // Strip: Start at 0
-    if (gid.station() == 1) {  // GE1/1
-      Int_t nNumVFAT = GEMeMap::maxVFatGE11_;
-      return nNumEtaPart * ((Int_t)(nIdxStrip / (nNumStrips / nNumVFAT)) + 1) - gid.roll();
-    } else if (gid.station() == 2) {  // GE2/1
-      Int_t nNumVFAT = GEMeMap::maxVFatGE21_;
-      return nNumEtaPart * ((Int_t)(nIdxStrip / (nNumStrips / nNumVFAT)) + 1) - gid.roll();
-    }
-
-    return -1;
-  };
-
   // Checking if there is a fire (data)
-  for (auto ch : gemChambers_) {
+  for (const auto &ch : gemChambers_) {
     GEMDetId cId = ch.id();
     Bool_t bIsHit = false;
 
@@ -967,6 +965,10 @@ void GEMDQMStatusDigi::analyze(edm::Event const &event, edm::EventSetup const &e
 
     auto &listCurrDigi = listTimeStore_[chIdDigi];
     auto &listCurrBx = listTimeStore_[chIdBx];
+    Int_t maxEtaPs = ch.nEtaPartitions();
+    Int_t nNumVFAT = GEMeMap::maxVFatGE11_;
+    if (cId.station() == 2)
+      nNumVFAT = GEMeMap::maxVFatGE21_;
 
     for (auto roll : ch.etaPartitions()) {
       GEMDetId rId = roll->id();
@@ -974,7 +976,7 @@ void GEMDQMStatusDigi::analyze(edm::Event const &event, edm::EventSetup const &e
 
       for (auto d = digis_in_det.first; d != digis_in_det.second; ++d) {
         Int_t nIdxStrip = d->strip() - nIdxFirstStrip_;
-        Int_t nVFAT = findVFATByStrip(rId, nIdxStrip, roll->nstrips());
+        Int_t nVFAT = maxEtaPs * ((Int_t)(nIdxStrip / (roll->nstrips() / nNumVFAT)) + 1) - rId.roll();
 
         bIsHit = true;
         mapBXVFAT[nVFAT] = d->bx();
