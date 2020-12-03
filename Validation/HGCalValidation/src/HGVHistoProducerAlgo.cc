@@ -532,6 +532,29 @@ void HGVHistoProducerAlgo::bookClusterHistos(DQMStore::IBooker& ibook,
   //---------------------------------------------------------------------------------------------------------------------------
 }
 
+void HGVHistoProducerAlgo::bookClusterHistos_LCtoCP_association(DQMStore::IBooker& ibook,
+                                                                Histograms& histograms,
+                                                                unsigned layers,
+                                                                std::vector<int> thicknesses,
+                                                                std::string pathtomatbudfile) {
+  //---------------------------------------------------------------------------------------------------------------------------
+  //z-
+  histograms.h_mixedhitscluster_zminus.push_back(
+      ibook.book1D("mixedhitscluster_zminus",
+                   "N of reco clusters that contain hits of more than one kind in z-",
+                   nintMixedHitsCluster_,
+                   minMixedHitsCluster_,
+                   maxMixedHitsCluster_));
+  //z+
+  histograms.h_mixedhitscluster_zplus.push_back(
+      ibook.book1D("mixedhitscluster_zplus",
+                   "N of reco clusters that contain hits of more than one kind in z+",
+                   nintMixedHitsCluster_,
+                   minMixedHitsCluster_,
+                   maxMixedHitsCluster_));
+  //---------------------------------------------------------------------------------------------------------------------------
+}
+
 void HGVHistoProducerAlgo::bookMultiClusterHistos(DQMStore::IBooker& ibook, Histograms& histograms, unsigned layers) {
   histograms.h_score_multicl2caloparticle.push_back(ibook.book1D(
       "Score_multicl2caloparticle", "Score of Multi Cluster per CaloParticle", nintScore_, minScore_, maxScore_));

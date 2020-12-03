@@ -1,0 +1,77 @@
+03-Dec-2020 04:50:18 CETSuccessfully opened file file:step3_inDQM.root
+%MSG-w FastTimerServiceClient:   FastTimerServiceClient:dqmFastTimerServiceClient@endLumi  03-Dec-2020 04:50:37 CET Run: 1 Lumi: 1
+no lumiVsLS ME is available in HLT/LumiMonitoring
+%MSG
+%MSG-w FastTimerServiceClient:   FastTimerServiceClient:dqmFastTimerServiceClient@endLumi  03-Dec-2020 04:50:37 CET Run: 1 Lumi: 1
+no puVsLS ME is available in HLT/LumiMonitoring
+%MSG
+%MSG-e HcalDigisClient:  HcalDigisClient:hcaldigisClient@endProcessBlock  03-Dec-2020 04:50:45 CET post-events
+No maps histos found...
+%MSG
+%MSG-e HcalDigisClient:  HcalDigisClient:hcaldigisClient@endProcessBlock  03-Dec-2020 04:50:45 CET post-events
+Error in HcalDigisEndjob! HE
+%MSG
+%MSG-w DataNotFound:   OuterTrackerMCHarvester:OuterTrackerHarvesterV@endProcessBlock  03-Dec-2020 04:50:45 CET post-events
+L1 tracks not found for pT resolution (2-3)!
+
+%MSG
+%MSG-w DataNotFound:   OuterTrackerMCHarvester:OuterTrackerHarvesterV@endProcessBlock  03-Dec-2020 04:50:45 CET post-events
+L1 tracks not found for pT resolution (3-8)!
+
+%MSG
+%MSG-w DataNotFound:   OuterTrackerMCHarvester:OuterTrackerHarvesterV@endProcessBlock  03-Dec-2020 04:50:45 CET post-events
+L1 tracks not found for pT resolution (8-inf)!
+
+%MSG
+%MSG-w DataNotFound:   OuterTrackerMCHarvester:OuterTrackerHarvesterV@endProcessBlock  03-Dec-2020 04:50:45 CET post-events
+L1 tracks not found for eta resolution!
+
+%MSG
+%MSG-w DataNotFound:   OuterTrackerMCHarvester:OuterTrackerHarvesterV@endProcessBlock  03-Dec-2020 04:50:45 CET post-events
+L1 tracks not found for phi resolution!
+
+%MSG
+%MSG-w DataNotFound:   OuterTrackerMCHarvester:OuterTrackerHarvesterV@endProcessBlock  03-Dec-2020 04:50:45 CET post-events
+L1 tracks not found for VtxZ resolution!
+
+%MSG
+%MSG-w DataNotFound:   OuterTrackerMCHarvester:OuterTrackerHarvesterV@endProcessBlock  03-Dec-2020 04:50:45 CET post-events
+L1 tracks not found for d0 resolution!
+
+%MSG
+%MSG-w FastTimerServiceClient:   FastTimerServiceClient:dqmFastTimerServiceClient@endProcessBlock  03-Dec-2020 04:50:45 CET post-events
+no lumiVsLS ME is available in HLT/LumiMonitoring
+%MSG
+%MSG-w FastTimerServiceClient:   FastTimerServiceClient:dqmFastTimerServiceClient@endProcessBlock  03-Dec-2020 04:50:45 CET post-events
+no puVsLS ME is available in HLT/LumiMonitoring
+%MSG
+DQMFileSaver::globalEndRun()
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 DataNotFound         -w OuterTrackerMCHa                       7        7
+    2 FastTimerServiceClie -w FastTimerService                       2        2
+    3 FastTimerServiceClie -w FastTimerService                       2        2
+    4 HcalDigisClient      -e HcalDigisClient:                       2        2
+    5 fileAction           -s AfterModBeginStr                       1        1
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 DataNotFound         post-events      post-events      post-events
+    2 FastTimerServiceClient Run: 1 Lumi: 1   Run: 1 Lumi: 1   
+    3 FastTimerServiceClient post-events      post-events      
+    4 HcalDigisClient      post-events      post-events      
+    5 fileAction           BeforeEvents                      
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+Warning                11                  11
+Error                   2                   2
+System                  1                   1
+
+dropped waiting message count 0
+03-Dec-2020 04:50:58 CETClosed file

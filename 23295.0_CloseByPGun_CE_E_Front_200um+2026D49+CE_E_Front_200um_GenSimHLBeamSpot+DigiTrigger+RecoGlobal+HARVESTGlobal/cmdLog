@@ -1,0 +1,16 @@
+
+# in: /afs/cern.ch/user/x/xisu/private/local/CMSSW_11_2_X_2020-11-30-2300/src dryRun for 'cd 23295.0_CloseByPGun_CE_E_Front_200um+2026D49+CE_E_Front_200um_GenSimHLBeamSpot+DigiTrigger+RecoGlobal+HARVESTGlobal
+ cmsDriver.py CE_E_Front_200um_cfi  --conditions auto:phase2_realistic_T15 -n 10 --era Phase2C9 --eventcontent FEVTDEBUG --relval 9000,100 -s GEN,SIM --datatier GEN-SIM --beamspot HLLHC --geometry Extended2026D49 --fileout file:step1.root  > step1_CloseByPGun_CE_E_Front_200um+2026D49+CE_E_Front_200um_GenSimHLBeamSpot+DigiTrigger+RecoGlobal+HARVESTGlobal.log  2>&1
+ 
+
+# in: /afs/cern.ch/user/x/xisu/private/local/CMSSW_11_2_X_2020-11-30-2300/src dryRun for 'cd 23295.0_CloseByPGun_CE_E_Front_200um+2026D49+CE_E_Front_200um_GenSimHLBeamSpot+DigiTrigger+RecoGlobal+HARVESTGlobal
+ cmsDriver.py step2  --conditions auto:phase2_realistic_T15 -s DIGI:pdigi_valid,L1TrackTrigger,L1,DIGI2RAW,HLT:@fake2 --datatier GEN-SIM-DIGI-RAW -n 10 --geometry Extended2026D49 --era Phase2C9 --eventcontent FEVTDEBUGHLT --filein  file:step1.root  --fileout file:step2.root  > step2_CloseByPGun_CE_E_Front_200um+2026D49+CE_E_Front_200um_GenSimHLBeamSpot+DigiTrigger+RecoGlobal+HARVESTGlobal.log  2>&1
+ 
+
+# in: /afs/cern.ch/user/x/xisu/private/local/CMSSW_11_2_X_2020-11-30-2300/src dryRun for 'cd 23295.0_CloseByPGun_CE_E_Front_200um+2026D49+CE_E_Front_200um_GenSimHLBeamSpot+DigiTrigger+RecoGlobal+HARVESTGlobal
+ cmsDriver.py step3  --conditions auto:phase2_realistic_T15 -s RAW2DIGI,L1Reco,RECO,RECOSIM,PAT,VALIDATION:@phase2Validation+@miniAODValidation,DQM:@phase2+@miniAODDQM --datatier GEN-SIM-RECO,MINIAODSIM,DQMIO -n 10 --geometry Extended2026D49 --era Phase2C9 --eventcontent FEVTDEBUGHLT,MINIAODSIM,DQM --filein  file:step2.root  --fileout file:step3.root  > step3_CloseByPGun_CE_E_Front_200um+2026D49+CE_E_Front_200um_GenSimHLBeamSpot+DigiTrigger+RecoGlobal+HARVESTGlobal.log  2>&1
+ 
+
+# in: /afs/cern.ch/user/x/xisu/private/local/CMSSW_11_2_X_2020-11-30-2300/src dryRun for 'cd 23295.0_CloseByPGun_CE_E_Front_200um+2026D49+CE_E_Front_200um_GenSimHLBeamSpot+DigiTrigger+RecoGlobal+HARVESTGlobal
+ cmsDriver.py step4  --conditions auto:phase2_realistic_T15 -s HARVESTING:@phase2Validation+@phase2+@miniAODValidation+@miniAODDQM --scenario pp --filetype DQM --geometry Extended2026D49 --era Phase2C9 --mc  -n 100  --filein file:step3_inDQM.root --fileout file:step4.root  > step4_CloseByPGun_CE_E_Front_200um+2026D49+CE_E_Front_200um_GenSimHLBeamSpot+DigiTrigger+RecoGlobal+HARVESTGlobal.log  2>&1
+ 

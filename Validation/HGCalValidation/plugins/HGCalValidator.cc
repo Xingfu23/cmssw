@@ -108,6 +108,16 @@ void HGCalValidator::bookHistograms(DQMStore::IBooker& ibook,
                                           cummatbudinxo_.fullPath());
   }
 
+  if (dolayerclustersPlots_){
+    ibook.cd();
+    ibook.setCurrentFolder(dirName_ +"hgcalLayerClusters/" + "LCtoCP_association");
+    histoProducerAlgo_->bookClusterHistos_LCtoCP_association(ibook, 
+                                                            histograms.histoProducerAlgo, 
+                                                            totallayers_to_monitor_, 
+                                                            thicknesses_to_monitor_,
+                                                            cummatbudinxo_.fullPath());
+  }
+
   //Booking histograms for multiclusters
   for (unsigned int www = 0; www < label_mcl.size(); www++) {
     ibook.cd();

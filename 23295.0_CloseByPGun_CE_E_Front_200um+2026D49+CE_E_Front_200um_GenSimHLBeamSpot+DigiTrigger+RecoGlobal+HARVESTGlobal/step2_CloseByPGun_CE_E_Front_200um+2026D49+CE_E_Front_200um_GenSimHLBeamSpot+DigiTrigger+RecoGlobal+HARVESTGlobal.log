@@ -1,0 +1,33 @@
+03-Dec-2020 04:39:27 CET  Initiating request to open file file:step1.root
+03-Dec-2020 04:39:28 CET  Successfully opened file file:step1.root
+Begin processing the 1st record. Run 1, Event 1, LumiSection 1 on stream 0 at 03-Dec-2020 04:40:53.729 CET
+Begin processing the 2nd record. Run 1, Event 2, LumiSection 1 on stream 0 at 03-Dec-2020 04:41:09.992 CET
+Begin processing the 3rd record. Run 1, Event 3, LumiSection 1 on stream 0 at 03-Dec-2020 04:41:19.198 CET
+Begin processing the 4th record. Run 1, Event 4, LumiSection 1 on stream 0 at 03-Dec-2020 04:41:28.248 CET
+Begin processing the 5th record. Run 1, Event 5, LumiSection 1 on stream 0 at 03-Dec-2020 04:41:37.262 CET
+Begin processing the 6th record. Run 1, Event 6, LumiSection 1 on stream 0 at 03-Dec-2020 04:41:46.239 CET
+Begin processing the 7th record. Run 1, Event 7, LumiSection 1 on stream 0 at 03-Dec-2020 04:41:55.179 CET
+Begin processing the 8th record. Run 1, Event 8, LumiSection 1 on stream 0 at 03-Dec-2020 04:42:04.292 CET
+Begin processing the 9th record. Run 1, Event 9, LumiSection 1 on stream 0 at 03-Dec-2020 04:42:13.579 CET
+Begin processing the 10th record. Run 1, Event 10, LumiSection 1 on stream 0 at 03-Dec-2020 04:42:22.780 CET
+03-Dec-2020 04:42:32 CET  Closed file file:step1.root
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 fileAction           -s file_close                             1        1
+    2 fileAction           -s file_open                              2        2
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 fileAction           PostGlobalEndRun                  
+    2 fileAction           pre-events       pre-events       
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+System                  3                   3
+
+dropped waiting message count 0

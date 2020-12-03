@@ -162,6 +162,13 @@ public:
                          unsigned layers,
                          std::vector<int> thicknesses,
                          std::string pathtomatbudfile);
+
+  void bookClusterHistos_LCtoCP_association(DQMStore::IBooker& ibook,
+                                            Histograms& histograms,
+                                            unsigned layers,
+                                            std::vector<int> thicknesses,
+                                            std::string pathtomatbudfile);
+
   void bookMultiClusterHistos(DQMStore::IBooker& ibook, Histograms& histograms, unsigned layers);
   void layerClusters_to_CaloParticles(
       const Histograms& histograms,

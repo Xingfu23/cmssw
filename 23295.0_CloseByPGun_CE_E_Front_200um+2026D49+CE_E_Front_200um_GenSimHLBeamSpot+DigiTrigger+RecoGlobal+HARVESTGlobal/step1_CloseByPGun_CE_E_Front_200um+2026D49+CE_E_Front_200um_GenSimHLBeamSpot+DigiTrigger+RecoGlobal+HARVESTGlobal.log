@@ -1,0 +1,46 @@
+Begin processing the 1st record. Run 1, Event 1, LumiSection 1 on stream 0 at 03-Dec-2020 04:37:34.164 CET
+Begin processing the 2nd record. Run 1, Event 2, LumiSection 1 on stream 0 at 03-Dec-2020 04:37:45.200 CET
+Begin processing the 3rd record. Run 1, Event 3, LumiSection 1 on stream 0 at 03-Dec-2020 04:37:48.977 CET
+Begin processing the 4th record. Run 1, Event 4, LumiSection 1 on stream 0 at 03-Dec-2020 04:38:01.045 CET
+Begin processing the 5th record. Run 1, Event 5, LumiSection 1 on stream 0 at 03-Dec-2020 04:38:09.023 CET
+Begin processing the 6th record. Run 1, Event 6, LumiSection 1 on stream 0 at 03-Dec-2020 04:38:12.669 CET
+Begin processing the 7th record. Run 1, Event 7, LumiSection 1 on stream 0 at 03-Dec-2020 04:38:16.181 CET
+Begin processing the 8th record. Run 1, Event 8, LumiSection 1 on stream 0 at 03-Dec-2020 04:38:24.881 CET
+Begin processing the 9th record. Run 1, Event 9, LumiSection 1 on stream 0 at 03-Dec-2020 04:38:31.160 CET
+Begin processing the 10th record. Run 1, Event 10, LumiSection 1 on stream 0 at 03-Dec-2020 04:38:44.249 CET
+
+------------------------------------
+GenXsecAnalyzer:
+------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+Overall cross-section summary 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Process		xsec_before [pb]		passed	nposw	nnegw	tried	nposw	nnegw 	xsec_match [pb]			accepted [%]	 event_eff [%]
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+Total		0.000e+00 +/- 0.000e+00		0	0	0	0	0	0	-0.000e+00 +/- 0.000e+00		-100.0 +/- -100.0	-100.0 +/- -100.0
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Before matching: total cross section = 0.000e+00 +- 0.000e+00 pb
+After matching: total cross section = -0.000e+00 +- 0.000e+00 pb
+Matching efficiency = -1.0 +/- -1.0   [TO BE USED IN MCM]
+
+After filter: final cross section = 0.000e+00 +- 0.000e+00 pb
+After filter: final fraction of events with negative weights = 0.000e+00 +- 0.000e+00
+After filter: final equivalent lumi for 1M events (1/fb) = 0.000e+00 +- 0.000e+00
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 GenXSecAnalyzer      -w GenXSecAnalyzer:                      12       12
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 GenXSecAnalyzer      EndJob           EndJob           EndJob
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+Warning                12                  12
+
+dropped waiting message count 0
