@@ -1,16 +1,16 @@
-03-Dec-2020 04:39:27 CET  Initiating request to open file file:step1.root
-03-Dec-2020 04:39:28 CET  Successfully opened file file:step1.root
-Begin processing the 1st record. Run 1, Event 1, LumiSection 1 on stream 0 at 03-Dec-2020 04:40:53.729 CET
-Begin processing the 2nd record. Run 1, Event 2, LumiSection 1 on stream 0 at 03-Dec-2020 04:41:09.992 CET
-Begin processing the 3rd record. Run 1, Event 3, LumiSection 1 on stream 0 at 03-Dec-2020 04:41:19.198 CET
-Begin processing the 4th record. Run 1, Event 4, LumiSection 1 on stream 0 at 03-Dec-2020 04:41:28.248 CET
-Begin processing the 5th record. Run 1, Event 5, LumiSection 1 on stream 0 at 03-Dec-2020 04:41:37.262 CET
-Begin processing the 6th record. Run 1, Event 6, LumiSection 1 on stream 0 at 03-Dec-2020 04:41:46.239 CET
-Begin processing the 7th record. Run 1, Event 7, LumiSection 1 on stream 0 at 03-Dec-2020 04:41:55.179 CET
-Begin processing the 8th record. Run 1, Event 8, LumiSection 1 on stream 0 at 03-Dec-2020 04:42:04.292 CET
-Begin processing the 9th record. Run 1, Event 9, LumiSection 1 on stream 0 at 03-Dec-2020 04:42:13.579 CET
-Begin processing the 10th record. Run 1, Event 10, LumiSection 1 on stream 0 at 03-Dec-2020 04:42:22.780 CET
-03-Dec-2020 04:42:32 CET  Closed file file:step1.root
+03-Dec-2020 09:02:38 CET  Initiating request to open file file:step1.root
+03-Dec-2020 09:02:40 CET  Successfully opened file file:step1.root
+Begin processing the 1st record. Run 1, Event 1, LumiSection 1 on stream 0 at 03-Dec-2020 09:04:23.340 CET
+Begin processing the 2nd record. Run 1, Event 2, LumiSection 1 on stream 0 at 03-Dec-2020 09:04:42.214 CET
+Begin processing the 3rd record. Run 1, Event 3, LumiSection 1 on stream 0 at 03-Dec-2020 09:04:50.978 CET
+Begin processing the 4th record. Run 1, Event 4, LumiSection 1 on stream 0 at 03-Dec-2020 09:04:59.580 CET
+Begin processing the 5th record. Run 1, Event 5, LumiSection 1 on stream 0 at 03-Dec-2020 09:05:08.256 CET
+Begin processing the 6th record. Run 1, Event 6, LumiSection 1 on stream 0 at 03-Dec-2020 09:05:16.886 CET
+Begin processing the 7th record. Run 1, Event 7, LumiSection 1 on stream 0 at 03-Dec-2020 09:05:25.392 CET
+Begin processing the 8th record. Run 1, Event 8, LumiSection 1 on stream 0 at 03-Dec-2020 09:05:34.008 CET
+Begin processing the 9th record. Run 1, Event 9, LumiSection 1 on stream 0 at 03-Dec-2020 09:05:42.609 CET
+Begin processing the 10th record. Run 1, Event 10, LumiSection 1 on stream 0 at 03-Dec-2020 09:05:51.230 CET
+03-Dec-2020 09:06:00 CET  Closed file file:step1.root
 
 =============================================
 

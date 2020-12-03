@@ -1,27 +1,27 @@
-03-Dec-2020 04:45:52 CET  Initiating request to open file file:step2.root
-03-Dec-2020 04:45:57 CET  Successfully opened file file:step2.root
-2020-12-03 04:46:23.534602: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN)to use the following CPU instructions in performance-critical operations:  SSE4.1 SSE4.2 AVX AVX2 FMA
+03-Dec-2020 09:39:16 CET  Initiating request to open file file:step2.root
+03-Dec-2020 09:39:24 CET  Successfully opened file file:step2.root
+2020-12-03 09:39:54.912311: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN)to use the following CPU instructions in performance-critical operations:  SSE4.1 SSE4.2 AVX AVX2 FMA
 To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
-Begin processing the 1st record. Run 1, Event 1, LumiSection 1 on stream 0 at 03-Dec-2020 04:48:21.669 CET
-%MSG-w UndefinedPartonMode:  HadronAndPartonSelector:selectedHadronsAndPartons  03-Dec-2020 04:48:24 CET Run: 1 Event: 1
+Begin processing the 1st record. Run 1, Event 1, LumiSection 1 on stream 0 at 03-Dec-2020 09:42:15.997 CET
+%MSG-w UndefinedPartonMode:  HadronAndPartonSelector:selectedHadronsAndPartons  03-Dec-2020 09:42:21 CET Run: 1 Event: 1
 Could not automatically determine the hadronizer type and set the correct parton selection mode. Parton-based jet flavour will not be defined.
 %MSG
-%MSG-w UndefinedPartonMode:  HadronAndPartonSelector:patJetPartons  03-Dec-2020 04:48:24 CET Run: 1 Event: 1
+%MSG-w UndefinedPartonMode:  HadronAndPartonSelector:patJetPartons  03-Dec-2020 09:42:21 CET Run: 1 Event: 1
 Could not automatically determine the hadronizer type and set the correct parton selection mode. Parton-based jet flavour will not be defined.
 %MSG
-%MSG-w UndefinedPartonMode:   HadronAndPartonSelector:selectedHadronsAndPartonsForGenJetsFlavourInfos  03-Dec-2020 04:48:35 CET Run: 1 Event: 1
+%MSG-w UndefinedPartonMode:   HadronAndPartonSelector:selectedHadronsAndPartonsForGenJetsFlavourInfos  03-Dec-2020 09:42:36 CET Run: 1 Event: 1
 Could not automatically determine the hadronizer type and set the correct parton selection mode. Parton-based jet flavour will not be defined.
 %MSG
-Begin processing the 2nd record. Run 1, Event 2, LumiSection 1 on stream 0 at 03-Dec-2020 04:48:35.975 CET
-Begin processing the 3rd record. Run 1, Event 3, LumiSection 1 on stream 0 at 03-Dec-2020 04:48:37.891 CET
-Begin processing the 4th record. Run 1, Event 4, LumiSection 1 on stream 0 at 03-Dec-2020 04:48:39.359 CET
-Begin processing the 5th record. Run 1, Event 5, LumiSection 1 on stream 0 at 03-Dec-2020 04:48:40.807 CET
-Begin processing the 6th record. Run 1, Event 6, LumiSection 1 on stream 0 at 03-Dec-2020 04:48:42.214 CET
-Begin processing the 7th record. Run 1, Event 7, LumiSection 1 on stream 0 at 03-Dec-2020 04:48:43.616 CET
-Begin processing the 8th record. Run 1, Event 8, LumiSection 1 on stream 0 at 03-Dec-2020 04:48:45.030 CET
-Begin processing the 9th record. Run 1, Event 9, LumiSection 1 on stream 0 at 03-Dec-2020 04:48:46.463 CET
-Begin processing the 10th record. Run 1, Event 10, LumiSection 1 on stream 0 at 03-Dec-2020 04:48:47.939 CET
-03-Dec-2020 04:48:51 CET  Closed file file:step2.root
+Begin processing the 2nd record. Run 1, Event 2, LumiSection 1 on stream 0 at 03-Dec-2020 09:42:36.156 CET
+Begin processing the 3rd record. Run 1, Event 3, LumiSection 1 on stream 0 at 03-Dec-2020 09:42:38.026 CET
+Begin processing the 4th record. Run 1, Event 4, LumiSection 1 on stream 0 at 03-Dec-2020 09:42:39.450 CET
+Begin processing the 5th record. Run 1, Event 5, LumiSection 1 on stream 0 at 03-Dec-2020 09:42:40.848 CET
+Begin processing the 6th record. Run 1, Event 6, LumiSection 1 on stream 0 at 03-Dec-2020 09:42:42.208 CET
+Begin processing the 7th record. Run 1, Event 7, LumiSection 1 on stream 0 at 03-Dec-2020 09:42:43.615 CET
+Begin processing the 8th record. Run 1, Event 8, LumiSection 1 on stream 0 at 03-Dec-2020 09:42:45.006 CET
+Begin processing the 9th record. Run 1, Event 9, LumiSection 1 on stream 0 at 03-Dec-2020 09:42:46.397 CET
+Begin processing the 10th record. Run 1, Event 10, LumiSection 1 on stream 0 at 03-Dec-2020 09:42:47.834 CET
+03-Dec-2020 09:42:51 CET  Closed file file:step2.root
 
 =============================================
 

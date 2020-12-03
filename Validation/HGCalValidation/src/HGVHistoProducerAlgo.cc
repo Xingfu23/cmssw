@@ -218,7 +218,7 @@ void HGVHistoProducerAlgo::bookClusterHistos(DQMStore::IBooker& ibook,
   //z-
   histograms.h_mixedhitscluster_zminus.push_back(
       ibook.book1D("mixedhitscluster_zminus",
-                   "N of reco clusters that contain hits of more than one kind in z-",
+                   "N of rect clusters that contain hits of more than one kind in z-",
                    nintMixedHitsCluster_,
                    minMixedHitsCluster_,
                    maxMixedHitsCluster_));
@@ -541,7 +541,7 @@ void HGVHistoProducerAlgo::bookClusterHistos_LCtoCP_association(DQMStore::IBooke
   //z-
   histograms.h_mixedhitscluster_zminus.push_back(
       ibook.book1D("mixedhitscluster_zminus",
-                   "N of reco clusters that contain hits of more than one kind in z-",
+                   "N of rect clusters that contain hits of more than one kind in z-",
                    nintMixedHitsCluster_,
                    minMixedHitsCluster_,
                    maxMixedHitsCluster_));
@@ -552,7 +552,39 @@ void HGVHistoProducerAlgo::bookClusterHistos_LCtoCP_association(DQMStore::IBooke
                    nintMixedHitsCluster_,
                    minMixedHitsCluster_,
                    maxMixedHitsCluster_));
+
   //---------------------------------------------------------------------------------------------------------------------------
+  //z-
+  histograms.h_energyclustered_zminus.push_back(
+      ibook.book1D("energyclustered_zminus",
+                   "percent of total energy clustered by all layer clusters over caloparticles energy in z-",
+                   nintEneCl_,
+                   minEneCl_,
+                   maxEneCl_));
+  //z+
+  histograms.h_energyclustered_zplus.push_back(
+      ibook.book1D("energyclustered_zplus",
+                   "percent of total energy clustered by all layer clusters over caloparticles energy in z+",
+                   nintEneCl_,
+                   minEneCl_,
+                   maxEneCl_));
+
+  //---------------------------------------------------------------------------------------------------------------------------
+  //z-
+  std::string subpathtomat = pathtomatbudfile.substr(pathtomatbudfile.find("Validation"));
+  histograms.h_longdepthbarycentre_zminus.push_back(
+      ibook.book1D("longdepthbarycentre_zminus",
+                   "The longitudinal depth barycentre in z- for " + subpathtomat,
+                   nintLongDepBary_,
+                   minLongDepBary_,
+                   maxLongDepBary_));
+  //z+
+  histograms.h_longdepthbarycentre_zplus.push_back(
+      ibook.book1D("longdepthbarycentre_zplus",
+                   "The longitudinal depth barycentre in z+ for " + subpathtomat,
+                   nintLongDepBary_,
+                   minLongDepBary_,
+                   maxLongDepBary_));
 }
 
 void HGVHistoProducerAlgo::bookMultiClusterHistos(DQMStore::IBooker& ibook, Histograms& histograms, unsigned layers) {
