@@ -48,7 +48,6 @@
 //
 // ----------------------------------------------------------------------
 
-#include "FWCore/MessageLogger/interface/ELstring.h"
 #include "FWCore/MessageLogger/interface/ELlist.h"
 #include "FWCore/MessageLogger/interface/ELseverityLevel.h"
 #include "FWCore/MessageLogger/interface/ErrorObj.h"
@@ -61,26 +60,12 @@ namespace edm {
   namespace service {
 
     // ----------------------------------------------------------------------
-    // Prerequisite classes:
-    // ----------------------------------------------------------------------
-
-    class ELdestination;
-    class ELcout;
-    class MessageLoggerScribe;
-
-    // ----------------------------------------------------------------------
     // ELadministrator:
     // ----------------------------------------------------------------------
 
-    class ELadministrator {  // *** Destructable Singleton Pattern ***
-
-      friend class MessageLoggerScribe;               // proper ELadministrator cleanup
-      friend class ThreadSafeLogMessageLoggerScribe;  // proper ELadministrator cleanup
-      friend class ELcout;                            // ELcout behavior
-
-      // *** Error Logger Functionality ***
-
+    class ELadministrator {
     public:
+      ELadministrator();
       ~ELadministrator();
 
       //Replaces ErrorLog which is no longer needed
@@ -102,11 +87,11 @@ namespace edm {
       // ---  apply the following actions to all attached destinations:
       //
       void setThresholds(const ELseverityLevel& sev);
-      void setLimits(const ELstring& id, int limit);
+      void setLimits(const std::string& id, int limit);
       void setLimits(const ELseverityLevel& sev, int limit);
-      void setIntervals(const ELstring& id, int interval);
+      void setIntervals(const std::string& id, int interval);
       void setIntervals(const ELseverityLevel& sev, int interval);
-      void setTimespans(const ELstring& id, int seconds);
+      void setTimespans(const std::string& id, int seconds);
       void setTimespans(const ELseverityLevel& sev, int seconds);
       void wipe();
       void finish();
@@ -119,11 +104,6 @@ namespace edm {
       const ELseverityLevel& highSeverity() const;
       int severityCounts(int lev) const;
 
-    protected:
-      // ---  traditional birth/death, but disallowed to users:
-      //
-      ELadministrator();
-
     private:
       // ---  traditional member data:
       //
@@ -131,7 +111,7 @@ namespace edm {
       ELseverityLevel highSeverity_;
       int severityCounts_[ELseverityLevel::nLevels];
 
-      std::map<ELstring, edm::propagate_const<std::shared_ptr<ELdestination>>> attachedDestinations_;
+      std::map<std::string, edm::propagate_const<std::shared_ptr<ELdestination>>> attachedDestinations_;
 
     };  // ELadministrator
 
