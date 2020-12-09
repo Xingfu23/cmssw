@@ -697,6 +697,7 @@ void HGVHistoProducerAlgo::bookClusterHistos_LCtoCP_association(DQMStore::IBooke
   }
   //---------------------------------------------------------------------------------------------------------------------------
 }
+
 void HGVHistoProducerAlgo::bookClusterHistos_CellLevel(DQMStore::IBooker& ibook,
                                                        Histograms& histograms,
                                                        unsigned layers,
@@ -740,6 +741,34 @@ void HGVHistoProducerAlgo::bookClusterHistos_CellLevel(DQMStore::IBooker& ibook,
     histograms.h_cellAssociation_perlayer[ilayer]->setBinLabel(3, "FN(ineff.)");
     histograms.h_cellAssociation_perlayer[ilayer]->setBinLabel(4, "FP(fake)");
     histograms.h_cellAssociation_perlayer[ilayer]->setBinLabel(5, "TP(eff.)");
+  }
+  //---------------------------------------------------------------------------------------------------------------------------
+}
+
+void HGVHistoProducerAlgo::bookClusterHistos_LayerClusterLevel(DQMStore::IBooker& ibook,
+                                                               Histograms& histograms,
+                                                               unsigned layers,
+                                                               std::vector<int> thicknesses,
+                                                               std::string pathtomatbudfile) {
+  //---------------------------------------------------------------------------------------------------------------------------
+  for (unsigned ilayer = 0; ilayer < 2 * layers; ++ilayer) {
+    auto istr1 = std::to_string(ilayer);
+    while (istr1.size() < 2) {
+      istr1.insert(0, "0");
+    }
+    //We will make a mapping to the regural layer naming plus z- or z+ for convenience
+    std::string istr2 = "";
+    //First with the -z endcap
+    if (ilayer < layers) {
+      istr2 = std::to_string(ilayer + 1) + " in z-";
+    } else {  //Then for the +z
+      istr2 = std::to_string(ilayer - (layers - 1)) + " in z+";
+    }
+    histograms.h_clusternum_perlayer[ilayer] = ibook.book1D("totclusternum_layer_" + istr1,
+                                                            "total number of layer clusters for layer " + istr2,
+                                                            nintTotNClsperlay_,
+                                                            minTotNClsperlay_,
+                                                            maxTotNClsperlay_);
   }
   //---------------------------------------------------------------------------------------------------------------------------
 }

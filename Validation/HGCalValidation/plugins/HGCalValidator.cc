@@ -100,7 +100,7 @@ void HGCalValidator::bookHistograms(DQMStore::IBooker& ibook,
   //Booking histograms concerning with hgcal layer clusters
   if (dolayerclustersPlots_) {
     ibook.cd();
-    ibook.setCurrentFolder(dirName_ + "hgcalLayerClusters/" + "Origin_Plots_4");
+    ibook.setCurrentFolder(dirName_ + "hgcalLayerClusters/" + "Origin_Plots_5");
     histoProducerAlgo_->bookClusterHistos(ibook,
                                           histograms.histoProducerAlgo,
                                           totallayers_to_monitor_,
@@ -126,6 +126,16 @@ void HGCalValidator::bookHistograms(DQMStore::IBooker& ibook,
                                                     totallayers_to_monitor_,
                                                     thicknesses_to_monitor_,
                                                     cummatbudinxo_.fullPath());
+  }
+
+  if (dolayerclustersPlots_) {
+    ibook.cd();
+    ibook.setCurrentFolder(dirName_ + "hgcalLayerClusters/" + "LayerClusterLevel");
+    histoProducerAlgo_->bookClusterHistos_LayerClusterLevel(ibook,
+                                                            histograms.histoProducerAlgo,
+                                                            totallayers_to_monitor_,
+                                                            thicknesses_to_monitor_,
+                                                            cummatbudinxo_.fullPath());
   }
 
   //Booking histograms for multiclusters
