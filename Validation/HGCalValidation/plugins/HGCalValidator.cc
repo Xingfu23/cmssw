@@ -101,7 +101,9 @@ void HGCalValidator::bookHistograms(DQMStore::IBooker& ibook,
   if (dolayerclustersPlots_) {
     ibook.cd();
 
+
     ibook.setCurrentFolder(dirName_ + "hgcalLayerClusters/" + "Origin_Plots_5");
+
 
     histoProducerAlgo_->bookClusterHistos(ibook,
                                           histograms.histoProducerAlgo,
