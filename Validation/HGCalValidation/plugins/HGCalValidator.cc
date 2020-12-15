@@ -100,7 +100,9 @@ void HGCalValidator::bookHistograms(DQMStore::IBooker& ibook,
   //Booking histograms concerning with hgcal layer clusters
   if (dolayerclustersPlots_) {
     ibook.cd();
+
     ibook.setCurrentFolder(dirName_ + "hgcalLayerClusters/" + "Original_Plots");
+
     histoProducerAlgo_->bookClusterHistos(ibook,
                                           histograms.histoProducerAlgo,
                                           totallayers_to_monitor_,
