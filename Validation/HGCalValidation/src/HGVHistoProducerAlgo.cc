@@ -215,6 +215,7 @@ void HGVHistoProducerAlgo::bookClusterHistos(DQMStore::IBooker& ibook,
       ibook.book1D("num_reco_cluster_eta", "N of reco clusters vs eta", nintEta_, minEta_, maxEta_));
 
   //---------------------------------------------------------------------------------------------------------------------------
+  /*
   //z-
   /*
   histograms.h_mixedhitscluster_zminus.push_back(
@@ -232,6 +233,7 @@ void HGVHistoProducerAlgo::bookClusterHistos(DQMStore::IBooker& ibook,
                    maxMixedHitsCluster_));
   */
   //---------------------------------------------------------------------------------------------------------------------------
+  /*
   //z-
   /*
   histograms.h_energyclustered_zminus.push_back(
@@ -249,6 +251,7 @@ void HGVHistoProducerAlgo::bookClusterHistos(DQMStore::IBooker& ibook,
                    maxEneCl_));
   */
   //---------------------------------------------------------------------------------------------------------------------------
+  /*
   //z-
 /*
   std::string subpathtomat = pathtomatbudfile.substr(pathtomatbudfile.find("Validation"));
@@ -286,25 +289,31 @@ void HGVHistoProducerAlgo::bookClusterHistos(DQMStore::IBooker& ibook,
                                                             nintTotNClsperlay_,
                                                             minTotNClsperlay_,
                                                             maxTotNClsperlay_);
+    
     histograms.h_energyclustered_perlayer[ilayer] =
         ibook.book1D("energyclustered_perlayer" + istr1,
                      "percent of total energy clustered by layer clusters over caloparticles energy for layer " + istr2,
                      nintEneClperlay_,
                      minEneClperlay_,
                      maxEneClperlay_);
-      */
+
+    */
+
     histograms.h_score_layercl2caloparticle_perlayer[ilayer] =
         ibook.book1D("Score_layercl2caloparticle_perlayer" + istr1,
                      "Score of Layer Cluster per CaloParticle for layer " + istr2,
                      nintScore_,
                      minScore_,
                      maxScore_);
+    */
+    /*
     histograms.h_score_caloparticle2layercl_perlayer[ilayer] =
         ibook.book1D("Score_caloparticle2layercl_perlayer" + istr1,
                      "Score of CaloParticle per Layer Cluster for layer " + istr2,
                      nintScore_,
                      minScore_,
                      maxScore_);
+    */
     histograms.h_energy_vs_score_caloparticle2layercl_perlayer[ilayer] =
         ibook.book2D("Energy_vs_Score_caloparticle2layer_perlayer" + istr1,
                      "Energy vs Score of CaloParticle per Layer Cluster for layer " + istr2,
@@ -323,12 +332,14 @@ void HGVHistoProducerAlgo::bookClusterHistos(DQMStore::IBooker& ibook,
                      nintSharedEneFrac_,
                      minSharedEneFrac_,
                      maxSharedEneFrac_);
+    /*
     histograms.h_sharedenergy_caloparticle2layercl_perlayer[ilayer] =
         ibook.book1D("SharedEnergy_caloparticle2layercl_perlayer" + istr1,
                      "Shared Energy of CaloParticle per Layer Cluster for layer " + istr2,
                      nintSharedEneFrac_,
                      minSharedEneFrac_,
                      maxSharedEneFrac_);
+    */
     histograms.h_sharedenergy_caloparticle2layercl_vs_eta_perlayer[ilayer] =
         ibook.bookProfile("SharedEnergy_caloparticle2layercl_vs_eta_perlayer" + istr1,
                           "Shared Energy of CaloParticle vs #eta per best Layer Cluster for layer " + istr2,
@@ -345,12 +356,14 @@ void HGVHistoProducerAlgo::bookClusterHistos(DQMStore::IBooker& ibook,
                           maxPhi_,
                           minSharedEneFrac_,
                           maxSharedEneFrac_);
+    /*
     histograms.h_sharedenergy_layercl2caloparticle_perlayer[ilayer] =
         ibook.book1D("SharedEnergy_layercluster2caloparticle_perlayer" + istr1,
                      "Shared Energy of Layer Cluster per Layer Calo Particle for layer " + istr2,
                      nintSharedEneFrac_,
                      minSharedEneFrac_,
                      maxSharedEneFrac_);
+    */
     histograms.h_sharedenergy_layercl2caloparticle_vs_eta_perlayer[ilayer] =
         ibook.bookProfile("SharedEnergy_layercl2caloparticle_vs_eta_perlayer" + istr1,
                           "Shared Energy of LayerCluster vs #eta per best Calo Particle for layer " + istr2,
@@ -439,12 +452,14 @@ void HGVHistoProducerAlgo::bookClusterHistos(DQMStore::IBooker& ibook,
                      nintPhi_,
                      minPhi_,
                      maxPhi_);
+    /*
     histograms.h_cellAssociation_perlayer[ilayer] =
         ibook.book1D("cellAssociation_perlayer" + istr1, "Cell Association for layer " + istr2, 5, -4., 1.);
     histograms.h_cellAssociation_perlayer[ilayer]->setBinLabel(2, "TN(purity)");
     histograms.h_cellAssociation_perlayer[ilayer]->setBinLabel(3, "FN(ineff.)");
     histograms.h_cellAssociation_perlayer[ilayer]->setBinLabel(4, "FP(fake)");
     histograms.h_cellAssociation_perlayer[ilayer]->setBinLabel(5, "TP(eff.)");
+    */
   }
 
   //---------------------------------------------------------------------------------------------------------------------------
@@ -727,6 +742,7 @@ void HGVHistoProducerAlgo::bookClusterHistos_TEST(DQMStore::IBooker& ibook,
                    nintMixedHitsCluster_,
                    minMixedHitsCluster_,
                    maxMixedHitsCluster_));
+
 
   //---------------------------------------------------------------------------------------------------------------------------
 }

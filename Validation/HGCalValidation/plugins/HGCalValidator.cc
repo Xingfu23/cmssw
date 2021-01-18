@@ -100,7 +100,9 @@ void HGCalValidator::bookHistograms(DQMStore::IBooker& ibook,
   //Booking histograms concerning with hgcal layer clusters
   if (dolayerclustersPlots_) {
     ibook.cd();
+
     ibook.setCurrentFolder(dirName_ + "hgcalLayerClusters/" + "Other_Plots");
+
     histoProducerAlgo_->bookClusterHistos(ibook,
                                           histograms.histoProducerAlgo,
                                           totallayers_to_monitor_,
@@ -126,6 +128,7 @@ void HGCalValidator::bookHistograms(DQMStore::IBooker& ibook,
                                                totallayers_to_monitor_,
                                                thicknesses_to_monitor_,
                                                cummatbudinxo_.fullPath());
+
   }
 
   //Booking histograms for multiclusters
