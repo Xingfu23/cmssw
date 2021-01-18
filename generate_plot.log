@@ -1,0 +1,1 @@
+python Validation/HGCalValidation/scripts/makeHGCalValidationPlots.py DQM_V0001_R000000001__Global__CMSSW_X_Y_Z__RECO.root --outputDir HGCValid_hgcalLayerClusters_Plots --no-ratio --png --separate --html-sample "testing for new file structure" --html-validation-name hgcalLayerClusters --subdirprefix plots_testingfornewfilestructure --collection hgcalLayerClusters

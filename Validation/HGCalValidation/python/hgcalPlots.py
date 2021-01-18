@@ -1680,7 +1680,7 @@ _PhotonsFromMultiCl_Closest_EoverCPenergy = PlotGroup("PhotonsFromMultiCl", [
 
 #=================================================================================================
 hgcalLayerClustersPlotter = Plotter()
-layerClustersLabel = 'Layer Clusters'
+layerClustersLabel      = 'Layer Clusters Test'
 
 lc_general = [
   # [A] calculated "energy density" for cells in a) 120um, b) 200um, c) 300um, d) scint
@@ -1958,7 +1958,7 @@ lc_zplus = [
   _energyscore_lc2cp_zplus
 ]
 
-def append_hgcalLayerClustersPlots(collection = "hgcalLayerClusters", name_collection = layerClustersLabel):
+def append_hgcalLayerClustersPlots(collection = "hgcalLayerClusters ", name_collection = layerClustersLabel):
   regions = ["General", "zminus", "zplus"]
   setPlots = [lc_general, lc_zminus, lc_zplus]
   for reg, setPlot in zip(regions, setPlots):
@@ -1967,12 +1967,12 @@ def append_hgcalLayerClustersPlots(collection = "hgcalLayerClusters", name_colle
                 _hgcalFolders(collection)
                 ], PlotFolder(
                 *setPlot,
-                loopSubFolders=False,
+                loopSubFolders=True,
                 purpose=PlotPurpose.Timing, page=layerClustersLabel, section=reg))
 
 #=================================================================================================
 def _hgcalFolders(lastDirName="hgcalLayerClusters"):
-    return "DQMData/Run 1/HGCAL/Run summary/HGCalValidator/"+lastDirName
+  return "DQMData/Run 1/HGCAL/Run summary/HGCalValidator/"+lastDirName
 
 _multiclustersAllPlots = [
   _efficiencies,
