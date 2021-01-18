@@ -216,6 +216,7 @@ void HGVHistoProducerAlgo::bookClusterHistos(DQMStore::IBooker& ibook,
 
   //---------------------------------------------------------------------------------------------------------------------------
   //z-
+  /*
   histograms.h_mixedhitscluster_zminus.push_back(
       ibook.book1D("mixedhitscluster_zminus",
                    "N of reco clusters that contain hits of more than one kind in z-",
@@ -229,9 +230,10 @@ void HGVHistoProducerAlgo::bookClusterHistos(DQMStore::IBooker& ibook,
                    nintMixedHitsCluster_,
                    minMixedHitsCluster_,
                    maxMixedHitsCluster_));
-
+  */
   //---------------------------------------------------------------------------------------------------------------------------
   //z-
+  /*
   histograms.h_energyclustered_zminus.push_back(
       ibook.book1D("energyclustered_zminus",
                    "percent of total energy clustered by all layer clusters over caloparticles energy in z-",
@@ -245,9 +247,10 @@ void HGVHistoProducerAlgo::bookClusterHistos(DQMStore::IBooker& ibook,
                    nintEneCl_,
                    minEneCl_,
                    maxEneCl_));
-
+  */
   //---------------------------------------------------------------------------------------------------------------------------
   //z-
+/*
   std::string subpathtomat = pathtomatbudfile.substr(pathtomatbudfile.find("Validation"));
   histograms.h_longdepthbarycentre_zminus.push_back(
       ibook.book1D("longdepthbarycentre_zminus",
@@ -262,7 +265,7 @@ void HGVHistoProducerAlgo::bookClusterHistos(DQMStore::IBooker& ibook,
                    nintLongDepBary_,
                    minLongDepBary_,
                    maxLongDepBary_));
-
+  */
   //---------------------------------------------------------------------------------------------------------------------------
   for (unsigned ilayer = 0; ilayer < 2 * layers; ++ilayer) {
     auto istr1 = std::to_string(ilayer);
@@ -277,6 +280,7 @@ void HGVHistoProducerAlgo::bookClusterHistos(DQMStore::IBooker& ibook,
     } else {  //Then for the +z
       istr2 = std::to_string(ilayer - (layers - 1)) + " in z+";
     }
+    /*
     histograms.h_clusternum_perlayer[ilayer] = ibook.book1D("totclusternum_layer_" + istr1,
                                                             "total number of layer clusters for layer " + istr2,
                                                             nintTotNClsperlay_,
@@ -288,6 +292,7 @@ void HGVHistoProducerAlgo::bookClusterHistos(DQMStore::IBooker& ibook,
                      nintEneClperlay_,
                      minEneClperlay_,
                      maxEneClperlay_);
+      */
     histograms.h_score_layercl2caloparticle_perlayer[ilayer] =
         ibook.book1D("Score_layercl2caloparticle_perlayer" + istr1,
                      "Score of Layer Cluster per CaloParticle for layer " + istr2,
@@ -443,6 +448,7 @@ void HGVHistoProducerAlgo::bookClusterHistos(DQMStore::IBooker& ibook,
   }
 
   //---------------------------------------------------------------------------------------------------------------------------
+  /*
   for (std::vector<int>::iterator it = thicknesses.begin(); it != thicknesses.end(); ++it) {
     auto istr = std::to_string(*it);
     histograms.h_clusternum_perthick[(*it)] = ibook.book1D("totclusternum_thick_" + istr,
@@ -457,9 +463,11 @@ void HGVHistoProducerAlgo::bookClusterHistos(DQMStore::IBooker& ibook,
                                                              minCellsEneDensperthick_,
                                                              maxCellsEneDensperthick_);
   }
+  */
 
   //---------------------------------------------------------------------------------------------------------------------------
   //Not all combination exists but we should keep them all for cross checking reason.
+  /*
   for (std::vector<int>::iterator it = thicknesses.begin(); it != thicknesses.end(); ++it) {
     for (unsigned ilayer = 0; ilayer < 2 * layers; ++ilayer) {
       auto istr1 = std::to_string(*it);
@@ -529,6 +537,197 @@ void HGVHistoProducerAlgo::bookClusterHistos(DQMStore::IBooker& ibook,
           maxClEneperthickperlayer_);
     }
   }
+  */
+  //---------------------------------------------------------------------------------------------------------------------------
+}
+
+void HGVHistoProducerAlgo::bookClusterHistos_LCtoCP_association(DQMStore::IBooker& ibook,
+                                                                Histograms& histograms,
+                                                                unsigned layers,
+                                                                std::vector<int> thicknesses,
+                                                                std::string pathtomatbudfile) {
+  //---------------------------------------------------------------------------------------------------------------------------
+  //z-
+  histograms.h_mixedhitscluster_zminus.push_back(
+      ibook.book1D("mixedhitscluster_zminus",
+                   "N of reco clusters that contain hits of more than one kind in z-",
+                   nintMixedHitsCluster_,
+                   minMixedHitsCluster_,
+                   maxMixedHitsCluster_));
+  //z+
+  histograms.h_mixedhitscluster_zplus.push_back(
+      ibook.book1D("mixedhitscluster_zplus",
+                   "N of reco clusters that contain hits of more than one kind in z+",
+                   nintMixedHitsCluster_,
+                   minMixedHitsCluster_,
+                   maxMixedHitsCluster_));
+
+  //---------------------------------------------------------------------------------------------------------------------------
+  //z-
+  histograms.h_energyclustered_zminus.push_back(
+      ibook.book1D("energyclustered_zminus",
+                   "percent of total energy clustered by all layer clusters over caloparticles energy in z-",
+                   nintEneCl_,
+                   minEneCl_,
+                   maxEneCl_));
+  //z+
+  histograms.h_energyclustered_zplus.push_back(
+      ibook.book1D("energyclustered_zplus",
+                   "percent of total energy clustered by all layer clusters over caloparticles energy in z+",
+                   nintEneCl_,
+                   minEneCl_,
+                   maxEneCl_));
+
+  //---------------------------------------------------------------------------------------------------------------------------
+  //z-
+  std::string subpathtomat = pathtomatbudfile.substr(pathtomatbudfile.find("Validation"));
+  histograms.h_longdepthbarycentre_zminus.push_back(
+      ibook.book1D("longdepthbarycentre_zminus",
+                   "The longitudinal depth barycentre in z- for " + subpathtomat,
+                   nintLongDepBary_,
+                   minLongDepBary_,
+                   maxLongDepBary_));
+  //z+
+  histograms.h_longdepthbarycentre_zplus.push_back(
+      ibook.book1D("longdepthbarycentre_zplus",
+                   "The longitudinal depth barycentre in z+ for " + subpathtomat,
+                   nintLongDepBary_,
+                   minLongDepBary_,
+                   maxLongDepBary_));
+  //---------------------------------------------------------------------------------------------------------------------------
+  for (unsigned ilayer = 0; ilayer < 2 * layers; ++ilayer) {
+    auto istr1 = std::to_string(ilayer);
+    while (istr1.size() < 2) {
+      istr1.insert(0, "0");
+    }
+    //We will make a mapping to the regural layer naming plus z- or z+ for convenience
+    std::string istr2 = "";
+    //First with the -z endcap
+    if (ilayer < layers) {
+      istr2 = std::to_string(ilayer + 1) + " in z-";
+    } else {  //Then for the +z
+      istr2 = std::to_string(ilayer - (layers - 1)) + " in z+";
+    }
+    histograms.h_clusternum_perlayer[ilayer] = ibook.book1D("totclusternum_layer_" + istr1,
+                                                            "total number of layer clusters for layer " + istr2,
+                                                            nintTotNClsperlay_,
+                                                            minTotNClsperlay_,
+                                                            maxTotNClsperlay_);
+    histograms.h_energyclustered_perlayer[ilayer] =
+        ibook.book1D("energyclustered_perlayer" + istr1,
+                     "percent of total energy clustered by layer clusters over caloparticles energy for layer " + istr2,
+                     nintEneClperlay_,
+                     minEneClperlay_,
+                     maxEneClperlay_);
+  }
+  //---------------------------------------------------------------------------------------------------------------------------
+  for (std::vector<int>::iterator it = thicknesses.begin(); it != thicknesses.end(); ++it) {
+    auto istr = std::to_string(*it);
+    histograms.h_clusternum_perthick[(*it)] = ibook.book1D("totclusternum_thick_" + istr,
+                                                           "total number of layer clusters for thickness " + istr,
+                                                           nintTotNClsperthick_,
+                                                           minTotNClsperthick_,
+                                                           maxTotNClsperthick_);
+    //---
+    histograms.h_cellsenedens_perthick[(*it)] = ibook.book1D("cellsenedens_thick_" + istr,
+                                                             "energy density of cluster cells for thickness " + istr,
+                                                             nintCellsEneDensperthick_,
+                                                             minCellsEneDensperthick_,
+                                                             maxCellsEneDensperthick_);
+  }
+  //---------------------------------------------------------------------------------------------------------------------------
+  for (std::vector<int>::iterator it = thicknesses.begin(); it != thicknesses.end(); ++it) {
+    for (unsigned ilayer = 0; ilayer < 2 * layers; ++ilayer) {
+      auto istr1 = std::to_string(*it);
+      auto istr2 = std::to_string(ilayer);
+      while (istr2.size() < 2)
+        istr2.insert(0, "0");
+      auto istr = istr1 + "_" + istr2;
+      //We will make a mapping to the regural layer naming plus z- or z+ for convenience
+      std::string istr3 = "";
+      //First with the -z endcap
+      if (ilayer < layers) {
+        istr3 = std::to_string(ilayer + 1) + " in z- ";
+      } else {  //Then for the +z
+        istr3 = std::to_string(ilayer - (layers - 1)) + " in z+ ";
+      }
+      histograms.h_cellsnum_perthickperlayer[istr] =
+          ibook.book1D("cellsnum_perthick_perlayer_" + istr,
+                       "total number of cells for layer " + istr3 + " for thickness " + istr1,
+                       nintTotNcellsperthickperlayer_,
+                       minTotNcellsperthickperlayer_,
+                       maxTotNcellsperthickperlayer_);
+      //---
+      histograms.h_distancetoseedcell_perthickperlayer[istr] =
+          ibook.book1D("distancetoseedcell_perthickperlayer_" + istr,
+                       "distance of cluster cells to seed cell for layer " + istr3 + " for thickness " + istr1,
+                       nintDisToSeedperthickperlayer_,
+                       minDisToSeedperthickperlayer_,
+                       maxDisToSeedperthickperlayer_);
+      //---
+      histograms.h_distancetoseedcell_perthickperlayer_eneweighted[istr] = ibook.book1D(
+          "distancetoseedcell_perthickperlayer_eneweighted_" + istr,
+          "energy weighted distance of cluster cells to seed cell for layer " + istr3 + " for thickness " + istr1,
+          nintDisToSeedperthickperlayerenewei_,
+          minDisToSeedperthickperlayerenewei_,
+          maxDisToSeedperthickperlayerenewei_);
+      //---
+      histograms.h_distancetomaxcell_perthickperlayer[istr] =
+          ibook.book1D("distancetomaxcell_perthickperlayer_" + istr,
+                       "distance of cluster cells to max cell for layer " + istr3 + " for thickness " + istr1,
+                       nintDisToMaxperthickperlayer_,
+                       minDisToMaxperthickperlayer_,
+                       maxDisToMaxperthickperlayer_);
+      //---
+      histograms.h_distancetomaxcell_perthickperlayer_eneweighted[istr] = ibook.book1D(
+          "distancetomaxcell_perthickperlayer_eneweighted_" + istr,
+          "energy weighted distance of cluster cells to max cell for layer " + istr3 + " for thickness " + istr1,
+          nintDisToMaxperthickperlayerenewei_,
+          minDisToMaxperthickperlayerenewei_,
+          maxDisToMaxperthickperlayerenewei_);
+      //---
+      histograms.h_distancebetseedandmaxcell_perthickperlayer[istr] =
+          ibook.book1D("distancebetseedandmaxcell_perthickperlayer_" + istr,
+                       "distance of seed cell to max cell for layer " + istr3 + " for thickness " + istr1,
+                       nintDisSeedToMaxperthickperlayer_,
+                       minDisSeedToMaxperthickperlayer_,
+                       maxDisSeedToMaxperthickperlayer_);
+      //---
+      histograms.h_distancebetseedandmaxcellvsclusterenergy_perthickperlayer[istr] = ibook.book2D(
+          "distancebetseedandmaxcellvsclusterenergy_perthickperlayer_" + istr,
+          "distance of seed cell to max cell vs cluster energy for layer " + istr3 + " for thickness " + istr1,
+          nintDisSeedToMaxperthickperlayer_,
+          minDisSeedToMaxperthickperlayer_,
+          maxDisSeedToMaxperthickperlayer_,
+          nintClEneperthickperlayer_,
+          minClEneperthickperlayer_,
+          maxClEneperthickperlayer_);
+    }
+  }
+  //---------------------------------------------------------------------------------------------------------------------------
+}
+
+void HGVHistoProducerAlgo::bookClusterHistos_TEST(DQMStore::IBooker& ibook,
+                                                                Histograms& histograms,
+                                                                unsigned layers,
+                                                                std::vector<int> thicknesses,
+                                                                std::string pathtomatbudfile) {
+  //---------------------------------------------------------------------------------------------------------------------------
+  //z-
+  histograms.h_mixedhitscluster_zminus.push_back(
+      ibook.book1D("mixedhitscluster_zminus",
+                   "N of reco clusters that contain hits of more than one kind in z-",
+                   nintMixedHitsCluster_,
+                   minMixedHitsCluster_,
+                   maxMixedHitsCluster_));
+  //z+
+  histograms.h_mixedhitscluster_zplus.push_back(
+      ibook.book1D("mixedhitscluster_zplus",
+                   "N of reco clusters that contain hits of more than one kind in z+",
+                   nintMixedHitsCluster_,
+                   minMixedHitsCluster_,
+                   maxMixedHitsCluster_));
+
   //---------------------------------------------------------------------------------------------------------------------------
 }
 
